@@ -9,9 +9,7 @@ public interface HttpCode {
 
     int EXCEPTION_NO_CONNECT = 10002;
 
-    int EXCEPTION_DATA_GET = 10003;
+    int EXCEPTION_OTHER = 10003;
 
-    int EXCEPTION_OTHER = 10004;
-
-    int EXCEPTION_DATA_PARSE = 10006;
+    int EXCEPTION_DATA_PARSE = 10004;
 }

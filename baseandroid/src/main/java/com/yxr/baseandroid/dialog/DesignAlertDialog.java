@@ -99,7 +99,6 @@ public class DesignAlertDialog extends Dialog {
         tvCancel.setOnClickListener(listener);
     }
 
-
     private void setDialog() {
         DisplayMetrics dm = new DisplayMetrics();
         WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
