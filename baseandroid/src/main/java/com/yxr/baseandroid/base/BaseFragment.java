@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.yxr.baseandroid.util.ToastUtil;
 
 /**
+ * BaseFragment
  * Created by 63062 on 2017/12/18.
  */
 
@@ -47,6 +48,10 @@ public abstract class BaseFragment extends Fragment implements BaseUi{
         return rootView.findViewById(id);
     }
 
+    /**
+     * 初始化数据
+     * 当UI准备完成并且Fragment是可见的并且还没有初始化过数据
+     */
     private void firstInitData() {
         if (uiPrepare && getUserVisibleHint() && !dataLoaded){
             dataLoaded = true;
