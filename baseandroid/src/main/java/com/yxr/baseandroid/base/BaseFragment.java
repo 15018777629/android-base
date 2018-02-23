@@ -1,5 +1,7 @@
 package com.yxr.baseandroid.base;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import com.yxr.baseandroid.util.ToastUtil;
 
 public abstract class BaseFragment extends Fragment implements BaseUi{
     protected View rootView;
+    protected BaseViewModel viewModel;
     private boolean uiPrepare;
     private boolean dataLoaded;
 
@@ -29,14 +32,29 @@ public abstract class BaseFragment extends Fragment implements BaseUi{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = View.inflate(getActivity(), contentView(), null);
-
-        initView(savedInstanceState);
-        initListener();
+        ViewDataBinding binding = DataBindingUtil.inflate(inflater, contentView(), null, false);
+        viewModel = initViewModel();
+        if (viewModel != null) {
+            viewModel.setBinding(binding);
+            viewModel.initListener();
+            viewModel.initData();
+        }
         uiPrepare = true;
         firstInitData();
+        rootView = binding.getRoot();
+        initView(savedInstanceState);
+        initListener();
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (viewModel != null){
+            viewModel.onDestroy();
+            viewModel = null;
+        }
     }
 
     @Override
@@ -55,7 +73,7 @@ public abstract class BaseFragment extends Fragment implements BaseUi{
     private void firstInitData() {
         if (uiPrepare && getUserVisibleHint() && !dataLoaded){
             dataLoaded = true;
-            initData();
+            viewModel.initData();
         }
     }
 }

@@ -13,11 +13,11 @@ public interface BaseUi {
     @LayoutRes
     int contentView();
 
+    BaseViewModel initViewModel();
+
     void initView(@Nullable Bundle savedInstanceState);
 
     void initListener();
-
-    void initData();
 
     void toast(String toast);
 }
