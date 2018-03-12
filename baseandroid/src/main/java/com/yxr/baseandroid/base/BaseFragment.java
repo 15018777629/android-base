@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yxr.baseandroid.helper.StatusHelper;
+import com.yxr.baseandroid.listener.SingleClickListener;
 import com.yxr.baseandroid.util.ToastUtil;
 
 /**
@@ -33,19 +35,41 @@ public abstract class BaseFragment extends Fragment implements BaseUi{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewDataBinding binding = DataBindingUtil.inflate(inflater, contentView(), null, false);
+        if (binding == null || binding.getRoot() == null){
+            throw new RuntimeException("binding.getRoot() is null!!!");
+        }
         viewModel = initViewModel();
         if (viewModel != null) {
+            StatusHelper statusHelper = new StatusHelper(getActivity());
+            statusHelper.setNetErrorClickListener(new SingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    viewModel.initBizData();
+                }
+            });
+            viewModel.setStatusHelper(statusHelper);
             viewModel.setBinding(binding);
             viewModel.initListener();
-            viewModel.initData();
         }
         uiPrepare = true;
-        firstInitData();
         rootView = binding.getRoot();
         initView(savedInstanceState);
         initListener();
-
+        viewModel.initData();
+        firstInitData();
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        rootView = null;
+        if (viewModel != null){
+            viewModel.onDestroy();
+            viewModel = null;
+        }
+        uiPrepare = false;
+        dataLoaded = false;
     }
 
     @Override
@@ -55,6 +79,16 @@ public abstract class BaseFragment extends Fragment implements BaseUi{
             viewModel.onDestroy();
             viewModel = null;
         }
+    }
+
+    @Override
+    public void initView(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void initListener() {
+
     }
 
     @Override
@@ -73,7 +107,9 @@ public abstract class BaseFragment extends Fragment implements BaseUi{
     private void firstInitData() {
         if (uiPrepare && getUserVisibleHint() && !dataLoaded){
             dataLoaded = true;
-            viewModel.initData();
+            if (viewModel != null){
+                viewModel.initBizData();
+            }
         }
     }
 }

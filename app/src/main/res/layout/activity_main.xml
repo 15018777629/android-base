@@ -15,11 +15,20 @@
         android:orientation="vertical"
         android:layout_height="match_parent">
 
+        <com.yxr.baseandroid.ui.TitleBar
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#0f0"
+            app:title='@{"TitleBar Test"}'
+            app:titleColor="@{0xffff0000}"
+            app:action="@{main.action}"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:gravity="center"
+            android:layout_marginTop="10dp"
             tools:context="com.yxr.base.MainActivity">
 
             <ImageView
@@ -50,7 +59,7 @@
 
             <Button
                 android:id="@+id/btnClick"
-                android:text="click"
+                android:text='@{"Click : " + main.position}'
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

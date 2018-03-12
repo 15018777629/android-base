@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.yxr.baseandroid.R;
+import com.yxr.baseandroid.util.GlideUtil;
 
 /**
  * Created by kelin on 16-3-24.
@@ -55,10 +56,7 @@ public final class ImageViewBindingAdapter {
         if (imageView == null || opt == null || object == null) {
             return;
         }
-        Glide.with(imageView.getContext())
-                .load(object)
-                .apply(opt)
-                .into(imageView);
+        GlideUtil.display(imageView.getContext(), object, imageView, opt);
     }
 }
 

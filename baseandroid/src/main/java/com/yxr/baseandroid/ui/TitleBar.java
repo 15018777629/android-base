@@ -1,6 +1,7 @@
 package com.yxr.baseandroid.ui;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import java.util.LinkedList;
 
 import android.view.ViewGroup;
+
+import com.yxr.baseandroid.R;
+
 public class TitleBar extends ViewGroup implements View.OnClickListener {
     private static final int DEFAULT_MAIN_TEXT_SIZE = 18;
     private static final int DEFAULT_ACTION_TEXT_SIZE = 15;
@@ -35,7 +39,6 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
     private int mStatusBarHeight;
     private int mActionPadding;
     private int mOutPadding;
-    private int mActionTextColor;
     private int mHeight;
 
     public TitleBar(Context context) {
@@ -65,6 +68,16 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
 
     private void initView(Context context) {
         mLeftText = new TextView(context);
+        setLeftImageResource(R.drawable.titlebar_return_icon_black);
+        mLeftText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getContext() instanceof Activity){
+                    ((Activity) getContext()).finish();
+                }
+            }
+        });
+
         mCenterLayout = new LinearLayout(context);
         mRightLayout = new LinearLayout(context);
         mDividerView = new View(context);
@@ -77,6 +90,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         mLeftText.setPadding(mOutPadding, 0, mOutPadding, 0);
 
         mCenterText = new TextView(context);
+        mCenterText.setTextColor(0xff3D434D);
         mCenterLayout.addView(mCenterText);
 
         mCenterLayout.setGravity(Gravity.CENTER);
@@ -194,10 +208,6 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         mDividerView.getLayoutParams().height = dividerHeight;
     }
 
-    public void setActionTextColor(int colorResId) {
-        mActionTextColor = colorResId;
-    }
-
     /**
      * Function to set a click listener for Title TextView
      *
@@ -305,8 +315,8 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
             text.setGravity(Gravity.CENTER);
             text.setText(action.getText());
             text.setTextSize(DEFAULT_ACTION_TEXT_SIZE);
-            if (mActionTextColor != 0) {
-                text.setTextColor(mActionTextColor);
+            if (action.getTextColor() != 0) {
+                text.setTextColor(action.getTextColor());
             }
             view = text;
         }
@@ -400,6 +410,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
      */
     public interface Action {
         String getText();
+        int getTextColor();
         int getDrawable();
         void performAction(View view);
     }
@@ -417,16 +428,23 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         }
 
         @Override
-        public String getText() {
+        public final String getText() {
             return null;
+        }
+
+        @Override
+        public final int getTextColor() {
+            return 0;
         }
     }
 
     public static abstract class TextAction implements Action {
         final private String mText;
+        private final int textColor;
 
-        public TextAction(String text) {
+        public TextAction(String text, int textColor) {
             mText = text;
+            this.textColor = textColor;
         }
 
         @Override
@@ -437,6 +455,11 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         @Override
         public String getText() {
             return mText;
+        }
+
+        @Override
+        public final int getTextColor() {
+            return textColor;
         }
     }
 

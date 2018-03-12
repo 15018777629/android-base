@@ -10,7 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
+import com.yxr.baseandroid.helper.StatusHelper;
+import com.yxr.baseandroid.listener.SingleClickListener;
 import com.yxr.baseandroid.manager.AppManager;
 import com.yxr.baseandroid.util.ToastUtil;
 
@@ -34,12 +37,24 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseUi {
 
         ViewDataBinding binding = DataBindingUtil.setContentView(this, contentView());
         viewModel = initViewModel();
+
+        initView(savedInstanceState);
+        initListener();
+
         if (viewModel != null) {
+            StatusHelper statusHelper = new StatusHelper(this);
+            statusHelper.setNetErrorClickListener(new SingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    viewModel.initBizData();
+                }
+            });
             viewModel.setBinding(binding);
+            viewModel.setStatusHelper(statusHelper);
             viewModel.initListener();
             viewModel.initData();
-        }initView(savedInstanceState);
-        initListener();
+            viewModel.initBizData();
+        }
     }
 
     @Override
@@ -65,7 +80,21 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseUi {
     }
 
     @Override
+    public void initView(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
     public void toast(@NonNull String toast) {
         ToastUtil.toast(this, toast);
+    }
+
+    public WeakReference<Activity> getActivityWeakReference() {
+        return activityWeakReference;
     }
 }

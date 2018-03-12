@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
+import com.yxr.baseandroid.helper.StatusHelper;
+
 /**
  * Created by 63062 on 2017/12/1.
  */

@@ -1,12 +1,15 @@
 package com.yxr.baseandroid.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 
+import com.yxr.baseandroid.helper.StatusHelper;
 import com.yxr.baseandroid.http.HttpCallBack;
 import com.yxr.baseandroid.http.HttpHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.Map;
 
 /**
@@ -16,6 +19,7 @@ import java.util.Map;
 public abstract class BaseViewModel {
     protected final Context context;
     protected HttpHelper httpHelper;
+    protected StatusHelper statusHelper;
     private ViewDataBinding binding;
 
     public BaseViewModel(@NonNull Context context, HttpHelper httpHelper) {
@@ -23,17 +27,20 @@ public abstract class BaseViewModel {
         this.httpHelper = httpHelper;
     }
 
-    public void setBinding(ViewDataBinding binding) {
+    public void setBinding(@NonNull ViewDataBinding binding) {
         this.binding = binding;
     }
 
-    public <T extends ViewDataBinding> T getBinding(){
-        return (T) binding;
+    public void setStatusHelper(StatusHelper statusHelper) {
+        this.statusHelper = statusHelper;
     }
 
-    public abstract void initListener();
-
-    public abstract void initData();
+    public <T extends ViewDataBinding> T getBinding() {
+        if (binding == null) {
+            throw new RuntimeException("Must set binding first");
+        }
+        return (T) binding;
+    }
 
     public <T> void obGet(String url, Map<String, String> map, HttpCallBack<T> callBack) {
         if (httpHelper != null) {
@@ -71,10 +78,58 @@ public abstract class BaseViewModel {
         }
     }
 
+    public void loading() {
+        if (statusHelper != null) {
+            try {
+                statusHelper.loading();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void dismissLoading() {
+        if (statusHelper != null) {
+            try {
+                statusHelper.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void exception(int code) {
+        if (statusHelper != null) {
+            try {
+                statusHelper.exception(code);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void onDestroy() {
+        dismissLoading();
         if (httpHelper != null) {
             httpHelper.clearDisposable();
             httpHelper = null;
         }
+        if (binding != null) {
+            binding.unbind();
+            binding = null;
+        }
     }
+
+    public WeakReference<Activity> getActivityWeakReference() {
+        if (context == null || !(context instanceof BaseActivity)) {
+            return null;
+        }
+        return ((BaseActivity) context).getActivityWeakReference();
+    }
+
+    public abstract void initListener();
+
+    public abstract void initData();
+
+    public abstract void initBizData();
 }
