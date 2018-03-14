@@ -19,7 +19,7 @@ import com.yxr.baseandroid.listener.SingleClickListener;
  * Created by 63062 on 2018/3/8.
  */
 
-public class StatusHelper {
+public class StatusHelper implements View.OnClickListener {
 
     private int loadingLayout;
     private int emptyLayout;
@@ -30,6 +30,7 @@ public class StatusHelper {
     private ViewGroup decorView;
     private ViewGroup.LayoutParams layoutParams;
     private SingleClickListener netErrorClickListener;
+    private int marginTop;
 
     public StatusHelper(Activity activity) {
         setParentView(activity);
@@ -73,6 +74,10 @@ public class StatusHelper {
         this.layoutParams = layoutParams;
     }
 
+    public void setMarginTop(int marginTop){
+        this.marginTop = marginTop;
+    }
+
     public void setNetErrorClickListener(SingleClickListener netErrorClickListener){
         this.netErrorClickListener = netErrorClickListener;
     }
@@ -80,6 +85,9 @@ public class StatusHelper {
     public void loading() {
         dismiss();
         loadingView = addView(loadingView, loadingLayout, R.layout.status_default_loading);
+        if (loadingView != null){
+            loadingView.setOnClickListener(this);
+        }
     }
 
     public void exception(int code) {
@@ -93,13 +101,15 @@ public class StatusHelper {
     public void empty() {
         dismiss();
         emptyView = addView(emptyView, emptyLayout, R.layout.status_default_empty);
+        if (emptyView != null){
+            emptyView.setOnClickListener(this);
+        }
     }
 
     public void netError() {
         dismiss();
         netErrorView = addView(netErrorView, newErrorLayout, R.layout.status_default_no_network);
         if (netErrorView != null){
-            decorView.setClickable(false);
             netErrorView.setOnClickListener(netErrorClickListener);
         }
     }
@@ -108,16 +118,17 @@ public class StatusHelper {
         if (decorView == null) {
             return;
         }
-        decorView.setClickable(false);
         if (loadingView != null) {
             decorView.removeView(loadingView);
             loadingView = null;
         }
         if (emptyView != null) {
+            emptyView.setOnClickListener(null);
             decorView.removeView(emptyView);
             emptyView = null;
         }
         if (netErrorView != null) {
+            netErrorView.setOnClickListener(null);
             decorView.removeView(netErrorView);
             netErrorView = null;
         }
@@ -135,14 +146,17 @@ public class StatusHelper {
             } else if (decorView instanceof FrameLayout){
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 layoutParams.gravity = Gravity.CENTER;
+                layoutParams.topMargin = marginTop;
                 view.setLayoutParams(layoutParams);
             } else if (decorView instanceof LinearLayout){
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 layoutParams.gravity = Gravity.CENTER;
+                layoutParams.topMargin = marginTop;
                 view.setLayoutParams(layoutParams);
             } else if (decorView instanceof RelativeLayout){
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                layoutParams.topMargin = marginTop;
                 view.setLayoutParams(layoutParams);
             }
         }
@@ -150,4 +164,8 @@ public class StatusHelper {
         return view;
     }
 
+    @Override
+    public void onClick(View view) {
+
+    }
 }

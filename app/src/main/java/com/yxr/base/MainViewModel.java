@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.yxr.base.databinding.ActivityMainBinding;
 import com.yxr.baseandroid.base.BaseViewModel;
+import com.yxr.baseandroid.helper.StatusHelper;
 import com.yxr.baseandroid.http.HttpHelper;
 import com.yxr.baseandroid.ui.TitleBar;
 
@@ -46,8 +47,8 @@ public class MainViewModel extends BaseViewModel {
                 position.set(position.get() + 1);
                 user.age.set(user.age.get() + 1);
                 user.avatar.set(user.age.get() % 2 == 0
-                        ? "http://f.hiphotos.baidu.com/image/pic/item/503d269759ee3d6db032f61b48166d224e4ade6e.jpg"
-                        : "http://img0.imgtn.bdimg.com/it/u=3565185884,2248353566&fm=27&gp=0.jpg");
+                        ? "http://dimg.yanzijia.cn/cover/20180117/48cd116102d5e63048cd116102d5e630.png"
+                        : "http://dimg.yanzijia.cn/cover/20171220/14bc616072a9634914bc616072a96349.jpeg");
             }
         });
         action.set(new TitleBar.TextAction("aaaaa",0xff000000) {
@@ -60,9 +61,13 @@ public class MainViewModel extends BaseViewModel {
 
     @Override
     public void initData() {
+        StatusHelper statusHelper = getStatusHelper();
+        if (statusHelper != null){
+            statusHelper.setMarginTop((int) (context.getResources().getDisplayMetrics().density * 48));
+        }
         user.name.set("小玉米");
         user.age.set(18);
-        user.avatar.set("http://img0.imgtn.bdimg.com/it/u=3565185884,2248353566&fm=27&gp=0.jpg");
+        user.avatar.set("http://dimg.yanzijia.cn/cover/20171220/14bc616072a9634914bc616072a96349.jpeg");
 
         List<User> users = new ArrayList<>();
         for (int i = 1; i < 20; i++) {
@@ -70,11 +75,12 @@ public class MainViewModel extends BaseViewModel {
             u.name.set("ITEM : " + i);
             u.age.set(i);
             u.avatar.set(u.age.get() % 2 == 0
-                    ? "http://f.hiphotos.baidu.com/image/pic/item/503d269759ee3d6db032f61b48166d224e4ade6e.jpg"
-                    : "http://img0.imgtn.bdimg.com/it/u=3565185884,2248353566&fm=27&gp=0.jpg");
+                    ? "http://dimg.yanzijia.cn/cover/20180117/48cd116102d5e63048cd116102d5e630.png"
+                    : "http://dimg.yanzijia.cn/cover/20171220/14bc616072a9634914bc616072a96349.jpeg");
             users.add(u);
         }
         adapter.setData(users);
+        loading();
     }
 
     @Override
