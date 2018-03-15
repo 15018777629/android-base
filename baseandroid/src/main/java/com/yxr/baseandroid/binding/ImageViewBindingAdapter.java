@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.yxr.baseandroid.R;
+import com.yxr.baseandroid.util.GlideUtil;
 
 /**
  * Created by kelin on 16-3-24.
@@ -16,16 +17,12 @@ public final class ImageViewBindingAdapter {
     private static RequestOptions options = new RequestOptions()
             .centerCrop()
             .dontAnimate()
-            .skipMemoryCache(true)
-            .placeholder(R.drawable.replace)
-            .error(R.drawable.error);
+            .skipMemoryCache(true);
 
     private static RequestOptions optionsNoCrop = new RequestOptions()
             .dontAnimate()
             .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .placeholder(R.drawable.replace)
-            .error(R.drawable.error);
+            .diskCacheStrategy(DiskCacheStrategy.NONE);
 
     @BindingAdapter(value = {"imageUrl", "noCrop", "placeHolder", "errorHolder"}, requireAll = false)
     public static void setImageUri(ImageView imageView, String imageUrl, boolean noCrop
@@ -43,22 +40,19 @@ public final class ImageViewBindingAdapter {
 
     private static void initOptions(boolean noCrop, int placeHolder, int errorHolder) {
         if (noCrop) {
-            optionsNoCrop.placeholder(placeHolder == 0 ? R.drawable.replace : placeHolder);
-            optionsNoCrop.error(errorHolder == 0 ? R.drawable.error : errorHolder);
+            optionsNoCrop.placeholder(placeHolder == 0 ? GlideUtil.getRandomRes() : placeHolder);
+            optionsNoCrop.error(errorHolder == 0 ? GlideUtil.getRandomRes() : errorHolder);
         } else {
-            options.placeholder(placeHolder == 0 ? R.drawable.replace : placeHolder);
-            options.error(errorHolder == 0 ? R.drawable.error : errorHolder);
+            options.placeholder(placeHolder == 0 ? GlideUtil.getRandomRes() : placeHolder);
+            options.error(errorHolder == 0 ? GlideUtil.getRandomRes() : errorHolder);
         }
     }
 
     private static void loadImage(ImageView imageView, Object object, RequestOptions opt) {
-        if (imageView == null || opt == null || object == null) {
+        if (imageView == null || opt == null) {
             return;
         }
-        Glide.with(imageView.getContext())
-                .load(object)
-                .apply(opt)
-                .into(imageView);
+        GlideUtil.display(imageView.getContext(), object, imageView, opt);
     }
 }
 

@@ -33,7 +33,7 @@ public class AppManager {
      * 移除Activity到堆栈
      */
     public void removeActivity(WeakReference<Activity> activity) {
-        if (activity != null){
+        if (activity != null) {
             activityStack.remove(activity);
             activity = null;
         }
@@ -104,6 +104,31 @@ public class AppManager {
             }
         }
         return null;
+    }
+
+    public int getStackIndex(WeakReference<Activity> activity) {
+        if (activity == null) {
+            return 0;
+        }
+        return activityStack.search(activity);
+    }
+
+    public void finishAfterIndexActivity(WeakReference<Activity> activity) {
+        finishAfterIndexActivity(getStackIndex(activity));
+    }
+
+    public void finishAfterIndexActivity(int index) {
+        if (index >= activityStack.size()) {
+            return;
+        }
+        for (int i = index + 1, size = activityStack.size(); i < size; i++) {
+            WeakReference<Activity> activityWeakReference = activityStack.get(i);
+            if (null != activityWeakReference) {
+                finishActivity(activityWeakReference.get());
+                activityStack.remove(i);
+                break;
+            }
+        }
     }
 
     /**
