@@ -55,7 +55,9 @@ public abstract class BaseFragment extends Fragment implements BaseUi{
         rootView = binding.getRoot();
         initView(savedInstanceState);
         initListener();
-        viewModel.initData();
+        if (viewModel != null){
+            viewModel.initData();
+        }
         firstInitData();
         return rootView;
     }
