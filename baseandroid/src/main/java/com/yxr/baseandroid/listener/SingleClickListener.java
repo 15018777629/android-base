@@ -3,6 +3,7 @@ package com.yxr.baseandroid.listener;
 import android.view.View;
 
 /**
+ * 禁止一秒内的连续点击
  * Created by 63062 on 2018/3/1.
  */
 

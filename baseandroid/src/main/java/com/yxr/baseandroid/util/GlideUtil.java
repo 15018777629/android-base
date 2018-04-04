@@ -18,42 +18,77 @@ import java.util.Random;
 public class GlideUtil {
     private static final int[] RES = {R.drawable.default_dark_green, R.drawable.default_gray
             , R.drawable.default_light_green, R.drawable.default_pink};
-    private static final Random random = new Random();
 
-    public static RequestOptions options = new RequestOptions()
-            .centerCrop()
-            .dontAnimate()
-            .skipMemoryCache(true);
-
-    public static RequestOptions optionsNoCrop = new RequestOptions()
-            .dontAnimate()
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE);
-
+    /**
+     * 加载图片(一般用于网络图片)，默认缓存到本地
+     * @param context ：上下文
+     * @param uri ：图片地址
+     * @param imageView ：加载控件
+     */
     public static void display(Context context, Object uri, ImageView imageView) {
-        int res = getRandomRes();
-        options.placeholder(res);
-        options.error(res);
-        display(context, uri, imageView, options);
+        display(context, uri, imageView, false);
     }
 
-    public static void displayNoCrop(Context context, Object uri, ImageView imageView) {
-        display(context, uri, imageView, optionsNoCrop);
+    /**
+     * 加载图片(一般用于网络图片)
+     * @param context ：上下文
+     * @param uri ：图片地址
+     * @param imageView ：加载控件
+     * @param skipDiskCache ：是否需要缓存在本地
+     */
+    public static void display(Context context, Object uri, ImageView imageView, boolean skipDiskCache) {
+        display(context, uri, imageView, createOption(skipDiskCache));
     }
 
+    /**
+     * 加载图片(一般用于本地图片)，默认跳过内存
+     * @param context ：上下文
+     * @param uri ：图片地址
+     * @param imageView ：加载控件
+     */
+    public static void displayLocal(Context context, Object uri, ImageView imageView) {
+        displayLocal(context, uri, imageView, true);
+    }
+
+    /**
+     * 加载图片(一般用于本地图片)
+     * @param context ：上下文
+     * @param uri ：图片地址
+     * @param imageView ：加载控件
+     * @param skipMemoryCache ：是否跳过内存
+     */
+    public static void displayLocal(Context context, Object uri, ImageView imageView, boolean skipMemoryCache) {
+        display(context, uri, imageView, createLocalOption(skipMemoryCache));
+    }
+
+    /**
+     * 加载图片
+     * @param context ：上下文
+     * @param uri ：图片地址
+     * @param imageView ：加载控件
+     * @param requestOptions ：请求配置
+     */
     public static void display(Context context, Object uri, ImageView imageView, RequestOptions requestOptions) {
         if (canDisplay(context, imageView)) {
             Glide.with(context)
                     .load(uri)
-                    .apply(requestOptions == null ? options : requestOptions)
+                    .apply(requestOptions == null ? createOption(false) : requestOptions)
                     .into(imageView);
         }
     }
 
+    /**
+     * @return ：随机获取图片
+     */
     public static int getRandomRes() {
-        return RES[random.nextInt(RES.length)];
+        return RES[new Random().nextInt(RES.length)];
     }
 
+    /**
+     * @param context ：上下文
+     * @param imageView ：图片控件
+     * @return ：是否满足加载图片的条件
+     */
     private static boolean canDisplay(Context context, ImageView imageView) {
         if (imageView == null || context == null) {
             return false;
@@ -62,5 +97,22 @@ public class GlideUtil {
             return false;
         }
         return true;
+    }
+
+    private static RequestOptions createOption(boolean skipDiskCache) {
+        int randomRes = getRandomRes();
+        return new RequestOptions()
+                .centerCrop()
+                .dontAnimate()
+                .placeholder(randomRes)
+                .error(randomRes)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(skipDiskCache ? DiskCacheStrategy.NONE : DiskCacheStrategy.RESOURCE);
+    }
+
+    private static RequestOptions createLocalOption(boolean skipMemoryCache) {
+        return new RequestOptions()
+                .dontAnimate()
+                .skipMemoryCache(skipMemoryCache);
     }
 }

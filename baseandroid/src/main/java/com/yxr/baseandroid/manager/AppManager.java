@@ -6,6 +6,7 @@ import java.util.Stack;
 import android.app.Activity;
 
 /**
+ * App Activity 管理类
  */
 public class AppManager {
 
@@ -35,7 +36,6 @@ public class AppManager {
     public void removeActivity(WeakReference<Activity> activity) {
         if (activity != null) {
             activityStack.remove(activity);
-            activity = null;
         }
     }
 
@@ -62,7 +62,6 @@ public class AppManager {
         if (activity != null && !activity.isFinishing()) {
             activityStack.remove(activity);
             activity.finish();
-            activity = null;
         }
     }
 
@@ -86,7 +85,6 @@ public class AppManager {
             WeakReference<Activity> activityWeakReference = activityStack.get(i);
             if (null != activityWeakReference) {
                 finishActivity(activityWeakReference.get());
-                break;
             }
         }
         activityStack.clear();
@@ -106,6 +104,11 @@ public class AppManager {
         return null;
     }
 
+    /**
+     * 获取Activity在栈内的下标
+     * @param activity
+     * @return
+     */
     public int getStackIndex(WeakReference<Activity> activity) {
         if (activity == null) {
             return 0;
@@ -113,10 +116,16 @@ public class AppManager {
         return activityStack.search(activity);
     }
 
+    /**
+     * @param activity ：结束这个Activity之后的所有Activity
+     */
     public void finishAfterIndexActivity(WeakReference<Activity> activity) {
         finishAfterIndexActivity(getStackIndex(activity));
     }
 
+    /**
+     * @param index ：结束index之后的所有Activity
+     */
     public void finishAfterIndexActivity(int index) {
         if (index >= activityStack.size()) {
             return;
@@ -125,8 +134,6 @@ public class AppManager {
             WeakReference<Activity> activityWeakReference = activityStack.get(i);
             if (null != activityWeakReference) {
                 finishActivity(activityWeakReference.get());
-                activityStack.remove(i);
-                break;
             }
         }
     }

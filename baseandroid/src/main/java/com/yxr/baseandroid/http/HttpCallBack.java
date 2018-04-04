@@ -1,8 +1,5 @@
 package com.yxr.baseandroid.http;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -19,12 +16,10 @@ public abstract class HttpCallBack<T> {
      */
     public <T> HttpCallBack(){
         try {
-            Class clz = this.getClass();
-            ParameterizedType type = (ParameterizedType) clz.getGenericSuperclass();
-            Type[] types = type.getActualTypeArguments();
-            this.cls = (Class<T>) types[0];
+            this.cls = GenericsUtils.getSuperClassGenricType(getClass());
         }catch (Exception e){
             e.printStackTrace();
+            this.cls = String.class;
         }
     }
 

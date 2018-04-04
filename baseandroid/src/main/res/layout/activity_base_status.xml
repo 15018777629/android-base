@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llBaseStatus"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical">
+
+    <com.yxr.baseandroid.ui.TitleBar
+        android:id="@+id/tbBaseTitle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#ffffff"
+        android:elevation="2dp" />
+
+    <com.classic.common.MultipleStatusView
+        android:id="@+id/msvBaseStatusView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:emptyView="@layout/status_default_empty"
+        app:loadingView="@layout/status_default_loading"
+        app:noNetworkView="@layout/status_default_no_network">
+
+        <FrameLayout
+            android:id="@+id/flBaseContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.classic.common.MultipleStatusView>
+</LinearLayout>

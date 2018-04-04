@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.classic.common.MultipleStatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/msvBaseStatusView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:emptyView="@layout/status_default_empty"
+    app:loadingView="@layout/status_default_loading"
+    app:noNetworkView="@layout/status_default_no_network">
+
+    <FrameLayout
+        android:id="@+id/flBaseContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</com.classic.common.MultipleStatusView>

@@ -7,7 +7,7 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.BodyRequest;
 import com.lzy.okgo.request.base.Request;
 import com.lzy.okrx2.adapter.ObservableResponse;
-import com.yxr.baseandroid.util.LogUtil;
+import com.socks.library.KLog;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -27,6 +27,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class HttpHelper {
+    public static final String TAG = "HTTP_HELPER";
     private CompositeDisposable compositeDisposable;
 
     public <T> void obGet(String url, Map<String, String> map, HttpCallBack<T> callBack) {
@@ -66,13 +67,16 @@ public class HttpHelper {
         Observable<Response<String>> adapt = (Observable<Response<String>>) request.adapt(new ObservableResponse<String>());
         adapt.subscribeOn(Schedulers.io());
         adapt.observeOn(AndroidSchedulers.mainThread());
-        adapt.subscribe(new HttpObserver(callBack));
+        adapt.subscribe(new HttpObserver(callBack, request.getUrl()));
     }
 
     private class HttpObserver implements Observer<Response<String>> {
         private final HttpCallBack callBack;
-        public <T> HttpObserver(HttpCallBack<T> callBack) {
+        private final String url;
+
+        public <T> HttpObserver(HttpCallBack<T> callBack, String url) {
             this.callBack = callBack;
+            this.url = url;
         }
 
         @Override
@@ -82,7 +86,9 @@ public class HttpHelper {
 
         @Override
         public void onNext(@io.reactivex.annotations.NonNull Response<String> response) {
-            onNextCallBack(response, callBack);
+            KLog.i(TAG, url);
+            KLog.json(TAG, response.body());
+            onNextCallBack(url, response, callBack);
         }
 
         @Override
@@ -90,15 +96,15 @@ public class HttpHelper {
             e.printStackTrace();
             if (e instanceof HttpException) {
                 HttpException ex = (HttpException) e;
-                onErrorCallBack(ex.code(), e.getMessage(), callBack);
+                onErrorCallBack(url, ex.code(), e.getMessage(), callBack);
             } else if (e instanceof SocketTimeoutException) {
                 // 连接超时或没有网络连接
-                onErrorCallBack(HttpCode.EXCEPTION_TIME_OUT, "连接超时", callBack);
+                onErrorCallBack(url, HttpCode.EXCEPTION_TIME_OUT, "连接超时", callBack);
             } else if (e instanceof UnknownHostException) {
                 // 没有网络连接
-                onErrorCallBack(HttpCode.EXCEPTION_NO_CONNECT, "没有网络连接", callBack);
+                onErrorCallBack(url, HttpCode.EXCEPTION_NO_CONNECT, "没有网络连接", callBack);
             } else {
-                onErrorCallBack(HttpCode.EXCEPTION_OTHER, "其他错误", callBack);
+                onErrorCallBack(url, HttpCode.EXCEPTION_OTHER, "其他错误", callBack);
             }
         }
 
@@ -110,17 +116,17 @@ public class HttpHelper {
     /**
      * 访问网络数据成功
      *
+     * @param url
      * @param response ： 回传数据
      * @param callBack ： 回调
      */
-    private <T> void onNextCallBack(Response<String> response, HttpCallBack<T> callBack) {
+    private <T> void onNextCallBack(String url, Response<String> response, HttpCallBack<T> callBack) {
         if (callBack == null) {
             return;
         }
         String body = response.body();
-        LogUtil.e("HTTP_HELPER", "http code : " + response.code());
         if (response.code() != 200) {
-            onErrorCallBack(response.code(), "服务器异常", callBack);
+            onErrorCallBack(url, response.code(), "服务器异常", callBack);
             return;
         }
         if (callBack.cls == null) {
@@ -138,7 +144,7 @@ public class HttpHelper {
             e.printStackTrace();
         }
         if (t == null) {
-            onErrorCallBack(HttpCode.EXCEPTION_DATA_PARSE, "数据解析异常", callBack);
+            onErrorCallBack(url, HttpCode.EXCEPTION_DATA_PARSE, "数据解析异常", callBack);
         } else {
             callBack.onSuccess(t);
         }
@@ -147,12 +153,13 @@ public class HttpHelper {
     /**
      * 访问网络错误
      *
+     * @param url
      * @param code     ： 错误码
      * @param errorMsg ： 错误信息
      * @param callBack ： 回调
      */
-    private <T> void onErrorCallBack(int code, String errorMsg, HttpCallBack<T> callBack) {
-        LogUtil.e("HTTP_HELPER", "onErrorCallBack code : " + code + " ===== message : " + errorMsg);
+    private <T> void onErrorCallBack(String url, int code, String errorMsg, HttpCallBack<T> callBack) {
+        KLog.i(TAG, url + " :::::::::: code ::::::::::: " + code + " ::::::::::: errorMsg ::::::::::: " + errorMsg);
         if (callBack == null) {
             return;
         }

@@ -29,10 +29,10 @@ public class DesignAlertDialog extends Dialog {
     public DesignAlertDialog(@NonNull Context context) {
         super(context, R.style.common_dialog);
         View view = View.inflate(context, R.layout.ui_dialog_design_alert, null);
-        tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-        tvContent = (TextView) view.findViewById(R.id.tvContent);
-        tvCancel = (TextView) view.findViewById(R.id.tvCancel);
-        tvDefinite = (TextView) view.findViewById(R.id.tvDefinite);
+        tvTitle = view.findViewById(R.id.tvTitle);
+        tvContent = view.findViewById(R.id.tvContent);
+        tvCancel = view.findViewById(R.id.tvCancel);
+        tvDefinite = view.findViewById(R.id.tvDefinite);
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
