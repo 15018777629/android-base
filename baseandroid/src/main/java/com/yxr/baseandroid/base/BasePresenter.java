@@ -37,6 +37,11 @@ public abstract class BasePresenter {
         return baseView == null ? null : (T) baseView;
     }
 
+    /**
+     * 设置titleBar 和 状态布局
+     * @param iTitleBar
+     * @param iStatus
+     */
     public void setTitleAndStatusInt(ITitleBarUi iTitleBar, IStatusUi iStatus) {
         this.iTitleBar = iTitleBar;
         this.iStatus = iStatus;
