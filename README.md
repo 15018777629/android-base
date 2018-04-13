@@ -13,7 +13,7 @@ android{
 	}    
 }
 
-compile 'com.yxr.android:base-android:0.0.24'
+compile 'com.yxr.android:base-android:0.0.25'
 ```
 
 * MVC模式下如何使用BaseActivity和BaseFragment
@@ -75,6 +75,7 @@ public class MVPActivity extends BaseActivity<BasePresenter> implements IMVPActi
                   tvContent.setText("init complete!!");
                   // 结束loading状态，切换到内容状态
                   dismissLoading();
+                  
                   // 结束loading状态，HttpCode.EXCEPTION_NO_CONNECT == httpCode || 		HttpCode.EXCEPTION_TIME_OUT == httpCode 时切换到网络异常状态 否则 showEmpty == true 时切换到空布局状态，否则切换到内容布局状态
                   // dismissLoading(showEmpty, httpCode);
               }
