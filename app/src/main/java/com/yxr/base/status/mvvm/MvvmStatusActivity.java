@@ -31,7 +31,7 @@ public class MvvmStatusActivity extends BaseStatusActivity<BaseViewModel> {
 
     @Override
     public BaseViewModel initBasePresenter() {
-        return new MvvmStatusViewModel(this, null);
+        return new MvvmStatusViewModel(this);
     }
 
     @Override

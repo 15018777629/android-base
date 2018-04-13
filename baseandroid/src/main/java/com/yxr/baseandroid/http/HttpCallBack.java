@@ -1,5 +1,7 @@
 package com.yxr.baseandroid.http;
 
+import android.content.Context;
+
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -8,19 +10,27 @@ import io.reactivex.annotations.NonNull;
  */
 
 public abstract class HttpCallBack<T> {
+    private String hashTag = null;
     public Class cls = null;
 
     /**
      * 访问网络回调
      * @param <T> ： 目标实例对象
      */
-    public <T> HttpCallBack(){
+    public <T> HttpCallBack(Context context){
+        if (context != null){
+            hashTag = context.hashCode() + "";
+        }
         try {
             this.cls = GenericsUtils.getSuperClassGenricType(getClass());
         }catch (Exception e){
             e.printStackTrace();
             this.cls = String.class;
         }
+    }
+
+    public String getHashTag() {
+        return hashTag;
     }
 
     public abstract void onSuccess(@NonNull T t);

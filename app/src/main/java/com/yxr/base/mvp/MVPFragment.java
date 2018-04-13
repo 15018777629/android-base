@@ -43,7 +43,7 @@ public class MVPFragment extends BaseFragment<BasePresenter> implements IMVPFrag
     public BasePresenter initBasePresenter() {
         // MVP 在这里可以直接return BasePresenter的子类
         // 参数依次为 ：上下文 - IBaseView - HttpHelper(不需要访问网络可以直接传null)
-        return new MVPFragmentPresenter(activity, this, null);
+        return new MVPFragmentPresenter(activity, this);
     }
 
     @Override

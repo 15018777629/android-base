@@ -34,7 +34,7 @@ public class MVVMFragment extends BaseFragment<BaseViewModel> {
 
     @Override
     public BaseViewModel initBasePresenter() {
-        return new MVVMFragmentViewModel(activity, null);
+        return new MVVMFragmentViewModel(activity);
     }
 
 }

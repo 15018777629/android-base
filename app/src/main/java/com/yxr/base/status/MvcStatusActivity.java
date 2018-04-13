@@ -25,7 +25,7 @@ public class MvcStatusActivity extends BaseStatusActivity {
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        tvContent = (TextView) findViewById(R.id.tvContent);
+        tvContent = findViewById(R.id.tvContent);
     }
 
     @Override

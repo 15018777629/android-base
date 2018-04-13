@@ -34,7 +34,7 @@ public class MVPActivity extends BaseActivity<BasePresenter> implements IMVPActi
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPager);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MVPActivity extends BaseActivity<BasePresenter> implements IMVPActi
     public BasePresenter initBasePresenter() {
         // MVP 在这里可以直接return BasePresenter的子类
         // 参数依次为 ：上下文 - IBaseView - HttpHelper(不需要访问网络可以直接传null)
-        return new MVPActivityPresenter(this, this, null);
+        return new MVPActivityPresenter(this, this);
     }
 
     @Override

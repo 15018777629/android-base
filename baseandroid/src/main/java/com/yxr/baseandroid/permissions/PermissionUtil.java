@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.yxr.baseandroid.dialog.DesignAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +95,7 @@ public class PermissionUtil {
     }
 
     public static void showSettingDialog(final Activity activity, String permission) {
-        final DesignAlertDialog dialog = new DesignAlertDialog(activity);
+        final PermissionDialog dialog = new PermissionDialog(activity);
         dialog.setTitle("需要手动申请【" + PermissionNameUtil.getPermissionName(permission) + "】权限");
         dialog.setDefiniteClick(new View.OnClickListener() {
             @Override

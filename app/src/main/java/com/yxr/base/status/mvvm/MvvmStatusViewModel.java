@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import com.yxr.base.databinding.ActivityMvvmStatusBinding;
 import com.yxr.baseandroid.base.BaseViewModel;
 import com.yxr.baseandroid.base.ui.BaseStatusActivity;
-import com.yxr.baseandroid.http.HttpHelper;
 
 /**
  * Created by 63062 on 2018/4/4.
@@ -19,8 +18,8 @@ public class MvvmStatusViewModel extends BaseViewModel {
     private ActivityMvvmStatusBinding binding;
     private BaseStatusActivity activity;
 
-    public MvvmStatusViewModel(@NonNull Context context, HttpHelper httpHelper) {
-        super(context, httpHelper);
+    public MvvmStatusViewModel(@NonNull Context context) {
+        super(context);
     }
 
     @Override

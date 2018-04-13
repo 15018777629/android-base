@@ -4,8 +4,6 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 
-import com.yxr.baseandroid.http.HttpHelper;
-
 /**
  * Created by 63062 on 2018/4/4.
  */
@@ -13,8 +11,8 @@ import com.yxr.baseandroid.http.HttpHelper;
 public abstract class BaseViewModel extends BasePresenter {
     private ViewDataBinding binding;
 
-    public BaseViewModel(@NonNull Context context, HttpHelper httpHelper) {
-        super(context, null, httpHelper);
+    public BaseViewModel(@NonNull Context context) {
+        super(context, null);
     }
 
     @Override

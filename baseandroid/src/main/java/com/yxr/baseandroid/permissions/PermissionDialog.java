@@ -1,4 +1,4 @@
-package com.yxr.baseandroid.dialog;
+package com.yxr.baseandroid.permissions;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,17 +16,17 @@ import com.yxr.baseandroid.R;
 
 
 /**
- * 5.0后样式弹框
+ * 权限申请失败弹框
  * Created by 63062 on 2017/12/4.
  */
 
-public class DesignAlertDialog extends Dialog {
+public class PermissionDialog extends Dialog {
     private final TextView tvTitle;
     private final TextView tvContent;
     private final TextView tvCancel;
     private final TextView tvDefinite;
 
-    public DesignAlertDialog(@NonNull Context context) {
+    public PermissionDialog(@NonNull Context context) {
         super(context, R.style.common_dialog);
         View view = View.inflate(context, R.layout.ui_dialog_design_alert, null);
         tvTitle = view.findViewById(R.id.tvTitle);
