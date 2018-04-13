@@ -12,6 +12,7 @@ import com.yxr.base.mvc.MVCActivity;
 import com.yxr.base.mvp.MVPActivity;
 import com.yxr.base.mvvm.MVVMActivity;
 import com.yxr.base.status.MvcStatusActivity;
+import com.yxr.base.status.mvvm.MvvmStatusActivity;
 import com.yxr.baseandroid.base.BasePresenter;
 import com.yxr.baseandroid.base.ui.BaseActivity;
 
@@ -23,8 +24,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
     private static final String[] ITEMS = {"MVC模式下BaseActivity/BaseFragment使用"
             , "MVP模式下BaseActivity/BaseFragment使用"
             , "MVVM模式下BaseActivity/BaseFragment使用"
-            , "BaseStatusActivity使用"
-            , "BaseStatusFragment使用"};
+            , "Mvc BaseStatusActivity使用"
+            , "Mvvm BaseStatusActivity使用"};
 
     private ListView listView;
 
@@ -67,6 +68,9 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 break;
             case 3:
                 MvcStatusActivity.jumpHere(this);
+                break;
+            case 4:
+                MvvmStatusActivity.jumpHere(this);
                 break;
         }
     }

@@ -57,6 +57,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
         // 初始化业务基类
         basePresenter = initBasePresenter();
+
+        initStatusInterface();
+
         if (basePresenter != null) {
             if (basePresenter instanceof BaseViewModel) {
                 // 如果是DataBinding类型
@@ -129,6 +132,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
     }
 
+    @Override
+    public void initStatusInterface() {}
     /**
      * 重新加载数据(一般用于网络)
      */

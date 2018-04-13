@@ -80,6 +80,11 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         destroy();
     }
 
+    @Override
+    public void initStatusInterface() {
+
+    }
+
     /**
      * 重新加载数据(一般用于网络)
      */

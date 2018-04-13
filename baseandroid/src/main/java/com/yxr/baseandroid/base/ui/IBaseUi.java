@@ -21,6 +21,8 @@ public interface IBaseUi<T extends BasePresenter> {
 
     T initBasePresenter();
 
+    void initStatusInterface();
+
     void initData();
 
     void reloadData();

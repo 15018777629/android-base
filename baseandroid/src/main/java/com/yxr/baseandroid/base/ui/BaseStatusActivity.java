@@ -42,6 +42,13 @@ public abstract class BaseStatusActivity<T extends BasePresenter> extends BaseAc
     }
 
     @Override
+    public void initStatusInterface() {
+        if (basePresenter != null){
+            basePresenter.setTitleAndStatusInt(this, this);
+        }
+    }
+
+    @Override
     public void setBaseTitleVisible(boolean visible) {
         TitleBarUtil.setTitleVisible(tbBaseTitle, visible);
     }

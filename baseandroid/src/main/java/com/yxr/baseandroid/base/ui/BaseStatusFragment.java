@@ -42,6 +42,13 @@ public abstract class BaseStatusFragment<T extends BasePresenter> extends BaseFr
     }
 
     @Override
+    public void initStatusInterface() {
+        if (basePresenter != null){
+            basePresenter.setTitleAndStatusInt(this, this);
+        }
+    }
+
+    @Override
     public void setBaseTitleVisible(boolean visible) {
         TitleBarUtil.setTitleVisible(tbBaseTitle, visible);
     }

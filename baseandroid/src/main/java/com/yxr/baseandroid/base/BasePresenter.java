@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.yxr.baseandroid.base.ui.BaseActivity;
+import com.yxr.baseandroid.base.ui.BaseStatusFragment;
+import com.yxr.baseandroid.base.ui.IStatusUi;
+import com.yxr.baseandroid.base.ui.ITitleBarUi;
 import com.yxr.baseandroid.http.HttpCallBack;
 import com.yxr.baseandroid.http.HttpHelper;
 
@@ -21,6 +24,8 @@ public abstract class BasePresenter {
     private final IBaseView baseView;
     protected final Context context;
     protected HttpHelper httpHelper;
+    protected ITitleBarUi iTitleBar;
+    protected IStatusUi iStatus;
 
     public BasePresenter(@NonNull Context context, IBaseView baseView, HttpHelper httpHelper) {
         this.context = context;
@@ -28,8 +33,17 @@ public abstract class BasePresenter {
         this.baseView = baseView;
     }
 
+    public <T extends Context> T getContext() {
+        return (T) context;
+    }
+
     public <T extends IBaseView> T getBaseView() {
         return baseView == null ? null : (T) baseView;
+    }
+
+    public void setTitleAndStatusInt(ITitleBarUi iTitleBar, IStatusUi iStatus) {
+        this.iTitleBar = iTitleBar;
+        this.iStatus = iStatus;
     }
 
     /**
@@ -171,4 +185,5 @@ public abstract class BasePresenter {
      * 初始化业务数据
      */
     public abstract void initBizData();
+
 }

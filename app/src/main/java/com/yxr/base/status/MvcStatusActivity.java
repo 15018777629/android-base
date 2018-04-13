@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 
 import com.yxr.base.R;
 import com.yxr.baseandroid.base.BasePresenter;
@@ -15,6 +16,8 @@ import com.yxr.baseandroid.base.ui.BaseStatusActivity;
  */
 
 public class MvcStatusActivity extends BaseStatusActivity {
+    private TextView tvContent;
+
     @Override
     public int contentView() {
         return R.layout.activity_status;
@@ -22,7 +25,7 @@ public class MvcStatusActivity extends BaseStatusActivity {
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-
+        tvContent = (TextView) findViewById(R.id.tvContent);
     }
 
     @Override
@@ -45,6 +48,7 @@ public class MvcStatusActivity extends BaseStatusActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                tvContent.setText("init complete!!");
                 dismissLoading();
             }
         },2500);
