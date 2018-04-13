@@ -13,7 +13,7 @@ android{
 	}    
 }
 
-compile 'com.yxr.android:base-android:0.0.25'
+compile 'com.yxr.android:base-android:0.0.26'
 ```
 
 * MVC模式下如何使用BaseActivity和BaseFragment
@@ -88,6 +88,8 @@ public class MVPActivity extends BaseActivity<BasePresenter> implements IMVPActi
 * 网络请求使用
 
   ```
+  // 可以通过如下初始化全局配置
+  HttpUtil.init(application, httpHeaders);
   // 参数依次为 ：url，map，回调
   HttpUtil.obGet("http://op.juhe.cn/onebox/football/league?key=bbdf40a269d0f08936ddb07b076be559&league=%E6%B3%95%E7%94%B2"
       , null, new HttpCallBack<String>(context) {
