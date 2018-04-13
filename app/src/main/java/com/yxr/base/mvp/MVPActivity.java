@@ -53,7 +53,7 @@ public class MVPActivity extends BaseActivity<BasePresenter> implements IMVPActi
     @Override
     public BasePresenter initBasePresenter() {
         // MVP 在这里可以直接return BasePresenter的子类
-        // 参数依次为 ：上下文 - IBaseView - HttpHelper(不需要访问网络可以直接传null)
+        // 参数依次为 ：上下文 - IBaseView
         return new MVPActivityPresenter(this, this);
     }
 

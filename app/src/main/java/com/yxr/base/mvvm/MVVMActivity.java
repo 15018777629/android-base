@@ -31,6 +31,7 @@ public class MVVMActivity extends BaseActivity<BaseViewModel> {
 
     @Override
     public BaseViewModel initBasePresenter() {
+        // return BaseViewModel的子类
         return new MVVMActivityViewModel(this);
     }
 

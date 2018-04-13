@@ -15,6 +15,7 @@ public abstract class HttpCallBack<T> {
 
     /**
      * 访问网络回调
+     * @param context : 上下文(最后不要上传Application级别的上下文)，用于获取hashCode，addDisposable和clearDisposable使用
      * @param <T> ： 目标实例对象
      */
     public <T> HttpCallBack(Context context){

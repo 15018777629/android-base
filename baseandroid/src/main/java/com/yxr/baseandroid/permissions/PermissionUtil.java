@@ -19,11 +19,10 @@ import io.reactivex.functions.Consumer;
  */
 
 public class PermissionUtil {
-    private static List<String> refusePermissions = new ArrayList<>();
-    private static List<String> refuseNoAskingPermissions = new ArrayList<>();
     private static int index = 0;
 
-    private PermissionUtil(){}
+    private PermissionUtil() {
+    }
 
     /**
      * 动态申请单个权限
@@ -69,7 +68,10 @@ public class PermissionUtil {
      * @param permissions ： 申请的权限s
      */
     public static void requestPermissions(Activity activity, final PermissionsListener listener, final String... permissions) {
-        init();
+        final List<String> refusePermissions = new ArrayList<>();
+        final List<String> refuseNoAskingPermissions = new ArrayList<>();
+        index = 0;
+
         new RxPermissions(activity).requestEach(permissions)
                 .subscribe(new Consumer<Permission>() {
                     @Override
@@ -121,12 +123,6 @@ public class PermissionUtil {
             intent.putExtra("com.android.settings.ApplicationPkgName", activity.getPackageName());
         }
         activity.startActivity(intent);
-    }
-
-    private static void init() {
-        index = 0;
-        refusePermissions.clear();
-        refuseNoAskingPermissions.clear();
     }
 
     public interface PermissionsListener {

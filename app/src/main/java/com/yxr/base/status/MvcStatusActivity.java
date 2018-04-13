@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.yxr.base.R;
 import com.yxr.baseandroid.base.BasePresenter;
 import com.yxr.baseandroid.base.ui.BaseStatusActivity;
+import com.yxr.baseandroid.http.HttpCode;
 
 /**
  * Created by 63062 on 2018/4/4.
@@ -50,6 +51,7 @@ public class MvcStatusActivity extends BaseStatusActivity {
             public void run() {
                 tvContent.setText("init complete!!");
                 dismissLoading();
+                dismissLoading(true, HttpCode.EXCEPTION_TIME_OUT);
             }
         },2500);
     }
